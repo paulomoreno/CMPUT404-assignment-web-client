@@ -83,6 +83,10 @@ class HTTPClient(object):
         return str(buffer)
 
     def GET(self, url, args=None):
+
+        if args:
+            url += '?' + self.assemble_body(args)
+
         aux = self.assemble_header("GET",url)
 
         host = aux[0]
@@ -114,6 +118,7 @@ class HTTPClient(object):
         #Send request
         sock = self.connect(host, port)
         #print("\n----\nRequest:\n----\n" + header + "\n\n")
+        #print("\n----\Body:\n----\n" + body + "\n\n")
         sock.sendall(header.encode("UTF8"))
         if len(body) > 0:
                     sock.sendall(body)
